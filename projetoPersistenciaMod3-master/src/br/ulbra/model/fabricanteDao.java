@@ -31,7 +31,7 @@ public class fabricanteDao {
         cripto = u.criptografarSenha(senha);
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tbusuario"
+            stmt = con.prepareStatement("SELECT * FROM tbfabricante"
                     + " where email = ? AND senha = ?");
             stmt.setString(1, email);
             stmt.setString(2, cripto.toString());
@@ -47,20 +47,18 @@ public class fabricanteDao {
     }
 
     // SALVA O USUARIO NO BANCO DE DADOS   ---- C
-    public void create(Usuario u) throws NoSuchAlgorithmException {
+    public void create(fabricante f) throws NoSuchAlgorithmException {
         PreparedStatement stmt = null;
-        BigInteger cripto;
+        
         try {
             stmt = con.prepareStatement("INSERT INTO tbfabricante   (marca,"
                     + "telefone,site,email) VALUE (?,?,?,?)");
-            stmt.setString(1, u.getmarca());
-            stmt.setString(2, u.gettelefone());
-            cripto = u.criptografarSenha(u.getSenha());
-            stmt.setString(3, cripto.toString());
-            stmt.setString(4, u.getsite());
-            stmt.setString(5, u.getemail());
+            stmt.setString(1, f.getMarca());
+            stmt.setString(2, f.getTelefone());
+            stmt.setString(3, f.getEmail());
+            stmt.setString(4, f.getSite());
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Marca " + u.getmarca()
+            JOptionPane.showMessageDialog(null, "Marca " + f.getMarca()
                     + " Salvo com Sucesso!!");
 
         } catch (SQLException e) {
@@ -70,21 +68,19 @@ public class fabricanteDao {
         }
     }
     //ALTERAR O USUARIO NO BANCO DE DADOS   -- U 
-    public void update(Usuario u) throws NoSuchAlgorithmException {
+    public void update( fabricante f) throws NoSuchAlgorithmException {
         PreparedStatement stmt = null;
-        BigInteger cripto;
+        
         try {
             stmt = con.prepareStatement("UPDATE tbfabricante SET marca = ?,"
                     + "telefone = ?, site = ? ,email = ? WHERE id = ?");
-            stmt.setString(1, u.getmarca());
-            stmt.setString(2, u.gettelefone());
-            cripto = u.criptografarSenha(u.getSenha());
-            stmt.setString(3, cripto.toString());
-            stmt.setString(4, u.getemail());
-            stmt.setInt(5, u.getId());
+          stmt.setString(1, f.getMarca());
+            stmt.setString(2, f.getTelefone());
+            stmt.setString(3, f.getEmail());
+            stmt.setString(4, f.getSite());
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "fabrica " + u.getMarca()
-                    + " Modificado com Sucesso!!");
+            JOptionPane.showMessageDialog(null, "Marca " + f.getMarca()
+                    + " Salvo com Sucesso!!");
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro:" + e.getMessage());
@@ -95,63 +91,62 @@ public class fabricanteDao {
 
     //listagem de usuarios na tabela do formulario   ---   R
 
-    public ArrayList<Usuario> read() {
+    public ArrayList<fabricante> read() {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<Usuario> usuarios = new ArrayList<Usuario>();
+        List<fabricante> fabricantes = new ArrayList<fabricante>();
         try {
             stmt = con.prepareStatement("SELECT * FROM tbfabricante ORDER BY nome ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("marca"));
-                usuario.setNome(rs.getString("telefone"));
-                usuario.setEmail(rs.getString("site"));
-                usuario.setSenha(rs.getString("senha"));
-                usuario.setTipo(rs.getString("email"));
-                usuarios.add(usuario);
+                fabricante fabricante = new fabricante();
+                fabricante.setId(rs.getInt("marca"));
+                fabricante.setTelefone(rs.getString("telefone"));
+                fabricante.setSite(rs.getString("site"));
+                fabricante.setEmail(rs.getString("email"));
+                fabricantes.add(fabricante);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro:" + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return (ArrayList<Usuario>) usuarios;
+        return (ArrayList<fabricante>) fabricantes;
     }
 
-    public ArrayList<Usuario> readPesq(String nome) {
+    public ArrayList<fabricante> readPesq(String nome) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<Usuario> usuarios = new ArrayList<Usuario>();
+        List<fabricante> Fabricantes = new ArrayList<fabricante>();
         try {
             stmt = con.prepareStatement("SELECT * FROM tbfabricante WHERE nome LIKE ?");
             stmt.setString(1, "%" + nome + "%");
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("id"));
-                usuario.setMarca(rs.getString("marca"));
-                usuario.setTelefone(rs.getString("telefone"));
-                usuario.setSite(rs.getString("site"));
-                usuario.setEmail(rs.getString("email"));
-                usuarios.add(usuario);
+                fabricante Fabricante = new fabricante();
+                Fabricante.setId(rs.getInt("id"));
+                Fabricante.setMarca(rs.getString("marca"));
+                Fabricante.setTelefone(rs.getString("telefone"));
+                Fabricante.setSite(rs.getString("site"));
+                Fabricante.setEmail(rs.getString("email"));
+                Fabricantes.add(Fabricante);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro:" + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return (ArrayList<Usuario>) usuarios;
+        return (ArrayList<fabricante>) Fabricantes;
     }
 
         
     //excluir do banco de dados   --- D
-    public void delete(Usuario u) {
+    public void delete(fabricante f) {
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement("DELETE FROM tbfabricante WHERE id = ?");
 
-            stmt.setInt(1, u.getId());
+            stmt.setInt(1, f.getId());
 
             if (JOptionPane.showConfirmDialog(null, "Tem certeza que"
                     + " deseja excluir este marca(a)", "Exclusão",
