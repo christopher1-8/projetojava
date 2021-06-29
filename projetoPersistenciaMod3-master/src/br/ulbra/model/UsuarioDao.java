@@ -31,7 +31,7 @@ public class UsuarioDao {
         cripto = u.criptografarSenha(senha);
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tbusuario"
+            stmt = con.prepareStatement("SELECT * FROM tbagenda"
                     + " where email = ? AND senha = ?");
             stmt.setString(1, email);
             stmt.setString(2, cripto.toString());
@@ -51,13 +51,14 @@ public class UsuarioDao {
         PreparedStatement stmt = null;
         BigInteger cripto;
         try {
-            stmt = con.prepareStatement("INSERT INTO tbusuario (nome,"
-                    + "email,senha,tipo) VALUE (?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO tbagenda (nome,"
+                    + "email,senha,telefone,recado) VALUE (?,?,?,?,?)");
             stmt.setString(1, u.getNome());
             stmt.setString(2, u.getEmail());
             cripto = u.criptografarSenha(u.getSenha());
             stmt.setString(3, cripto.toString());
-            stmt.setString(4, u.getTipo());
+            stmt.setString(4, u.getTelefone());
+            stmt.setString(5, u.getRecado());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario " + u.getNome()
                     + " Salvo com Sucesso!!");
@@ -73,14 +74,15 @@ public class UsuarioDao {
         PreparedStatement stmt = null;
         BigInteger cripto;
         try {
-            stmt = con.prepareStatement("UPDATE tbusuario SET nome = ?,"
-                    + "email = ?, senha = ? ,tipo = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tbagenda SET nome = ?,"
+                    + "email = ?, senha = ? ,telefone = ?,recado = ?  WHERE id = ?");
             stmt.setString(1, u.getNome());
             stmt.setString(2, u.getEmail());
             cripto = u.criptografarSenha(u.getSenha());
             stmt.setString(3, cripto.toString());
-            stmt.setString(4, u.getTipo());
-            stmt.setInt(5, u.getId());
+            stmt.setString(4, u.getTelefone());
+            stmt.setString(5, u.getRecado());
+            stmt.setInt(6, u.getId());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario " + u.getNome()
                     + " Modificado com Sucesso!!");
@@ -99,7 +101,7 @@ public class UsuarioDao {
         ResultSet rs = null;
         List<Usuario> usuarios = new ArrayList<Usuario>();
         try {
-            stmt = con.prepareStatement("SELECT * FROM tbusuario ORDER BY nome ASC");
+            stmt = con.prepareStatement("SELECT * FROM tbagenda ORDER BY nome ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Usuario usuario = new Usuario();
@@ -107,7 +109,8 @@ public class UsuarioDao {
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
-                usuario.setTipo(rs.getString("tipo"));
+                usuario.setTelefone(rs.getString("telefone"));
+                usuario.setRecado(rs.getString("recado"));
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -123,7 +126,7 @@ public class UsuarioDao {
         ResultSet rs = null;
         List<Usuario> usuarios = new ArrayList<Usuario>();
         try {
-            stmt = con.prepareStatement("SELECT * FROM tbusuario WHERE nome LIKE ?");
+            stmt = con.prepareStatement("SELECT * FROM tbagenda WHERE nome LIKE ?");
             stmt.setString(1, "%" + nome + "%");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -132,7 +135,8 @@ public class UsuarioDao {
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
-                usuario.setTipo(rs.getString("tipo"));
+                usuario.setTelefone(rs.getString("telefone"));
+                usuario.setRecado(rs.getString("recado"));
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -148,7 +152,7 @@ public class UsuarioDao {
     public void delete(Usuario u) {
         PreparedStatement stmt = null;
         try {
-            stmt = con.prepareStatement("DELETE FROM tbusuario WHERE id = ?");
+            stmt = con.prepareStatement("DELETE FROM tbagenda WHERE id = ?");
 
             stmt.setInt(1, u.getId());
 

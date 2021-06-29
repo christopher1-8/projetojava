@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `bdoo1`
 --
-CREATE DATABASE IF NOT EXISTS `bdoo1` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `bdoo1`;
+CREATE DATABASE IF NOT EXISTS `bdpoo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `bdpoo`;
 
 -- --------------------------------------------------------
 
@@ -29,23 +29,27 @@ USE `bdoo1`;
 -- Estrutura da tabela `tbusuario`
 --
 
-DROP TABLE IF EXISTS `tbusuario`;
-CREATE TABLE IF NOT EXISTS `tbusuario` (
+DROP TABLE IF EXISTS `tbagenda`;
+CREATE TABLE IF NOT EXISTS `tbagenda` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(30) NOT NULL,
   `email` varchar(150) NOT NULL,
   `senha` varchar(80) NOT NULL,
-  `tipo` varchar(30) NOT NULL,
+  `telefone` varchar(30) NOT NULL,
+  `recado` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Extraindo dados da tabela `tbusuario`
+-- Extraindo dados da tabela `tbagenda`
 --
 
-INSERT INTO `tbusuario` (`id`, `nome`, `email`, `senha`, `tipo`) VALUES
+INSERT INTO `tbagenda` (`id`, `nome`, `email`, `senha`, `telefone`,`recado` ) VALUES
 (1, 'Jeferson Leon', 'jeferson@gmail.com', '1', 'adm'),
 (2, 'Yasmin da Silveira', 'yasmin@ulbra.br', 'souloucaporalcoolemgel2021', 'usuaria');
+COMMIT;
+INSERT INTO `bdpoo`.`tbagenda` (`id`, `nome`, `email`, `senha`, `telefone`, `recado`) VALUES 
+(NULL, 'yasmin', 'y', '1', '3453645677', 'oi');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

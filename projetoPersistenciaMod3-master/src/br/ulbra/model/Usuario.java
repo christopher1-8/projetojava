@@ -15,7 +15,8 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
-    private String tipo;
+    private String telefone;
+    private String recado;
     
     public Usuario() {
         
@@ -34,50 +35,61 @@ public class Usuario {
         }
         return senhacrip;
     }
-    
+
     public int getId() {
         return id;
     }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
+
     public String getNome() {
         return nome;
     }
-    
-    public void setNome(String nome) {
-        this.nome = nome.toUpperCase();
-    }
-    
+
     public String getEmail() {
         return email;
     }
-    
-    public void setEmail(String email) {
-        this.email = email.toLowerCase();
-    }
-    
+
     public String getSenha() {
         return senha;
     }
-    
-    public void setSenha(String senha) {
-        this.senha = senha;
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getRecado() {
+        return recado;
     }
     
-    public String getTipo() {
-        return tipo;
-    }
-    
-    public void setTipo(String tipo) {
-        this.tipo = tipo.toUpperCase();
-    }
+   
     
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", tipo=" + tipo + '}';
+        return "Usuario{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", telefone=" + telefone +  ", recado=" + recado + '}';
     }
+   public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setRecado(String recado) {
+        this.recado = recado;
+    }
+    private static final Logger LOG = Logger.getLogger(Usuario.class.getName());
+
     
 }
